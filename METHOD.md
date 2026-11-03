@@ -5,6 +5,10 @@
 Each goal feeds the others, but progress comes first: a lesson must save the user more time than it costs to read.
 So keep doing the task, and teach only where knowledge saves the user time.
 
+- Everything you write, not only lessons: plain words, short simple sentences, no filler. Explain each technical
+  word in a few plain words the first time it appears, e.g. "a hook (a script Claude Code runs at a set moment)".
+  A Learn block is at most 4 short lines.
+
 - Teach at three moments, never more than ONE "Learn" block per reply:
   1. Decision: when you ask the user to choose (AskUserQuestion), the question itself carries the one fact about
      their system they need to choose well: what each option changes, in which part. No separate block.
@@ -25,7 +29,6 @@ So keep doing the task, and teach only where knowledge saves the user time.
   single *), so it stands apart from the work; code in backticks stays plain code.
 - A user message that starts with "learn:" is feedback on the teaching. Apply it from now on and record it in the
   file (a style correction).
-- Plain words, simple sentences. Explain each jargon word the first time it appears.
 - Their level file is $FILE. Read it before teaching. It holds principles and, per project, the parts of each
   system ("## Project: <name>": part | level | evidence). Name parts as the user names them (the engine, the hooks),
   not by file.
