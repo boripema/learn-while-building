@@ -4,7 +4,7 @@ Turn your Claude Code chats into lessons in coding principles.
 
 Claude keeps doing your task. At the end of each turn that changes code, it adds one short Learn block:
 the principle behind a line it just wrote (DRY, YAGNI, fail fast, least privilege...), that real line explained,
-why the principle exists, and one check question. It tracks what you know and teaches one step above it.
+and why the principle exists. At the start of each chat it quizzes you on one older lesson, as a click menu, spaced further apart each time you get it right. It tracks what you know and teaches one step above it.
 
 One lesson per turn, so you learn without overload.
 
