@@ -56,3 +56,14 @@ graders:
       The reply contains exactly one "Learn" block. In plain words, that block says which part of the project
       broke (the store / saving stories), why the "/" in the title broke it (it is read as a folder in the
       path), and how to recognise this kind of problem next time. It asks the reader no question.
+  - type: llm
+    name: fix-handles-slash
+    criteria: |
+      The reply gives a fixed store.py in which a title containing "/" is saved as one file directly inside the
+      stories folder, and a title like "../x" can no longer write outside it. Saving still writes a temp file first
+      and then renames it.
+  - type: llm
+    name: names-principle
+    criteria: |
+      The Learn block ends with a general software engineering principle that also applies outside this project,
+      named so the reader can look it up (for example "validate input at trust boundaries").

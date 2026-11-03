@@ -1,0 +1,422 @@
+{
+ "partial": false,
+ "cases": [
+  {
+   "name": "failure-lesson",
+   "arms": {
+    "with": [
+     {
+      "durationSeconds": 41,
+      "turns": 5,
+      "error": null,
+      "graders": [
+       {
+        "name": "exactly-one-learn-block",
+        "passed": true
+       },
+       {
+        "name": "names-the-part",
+        "passed": true
+       },
+       {
+        "name": "system-lesson",
+        "passed": true
+       },
+       {
+        "name": "fix-handles-slash",
+        "passed": true
+       },
+       {
+        "name": "names-principle",
+        "passed": true
+       }
+      ]
+     },
+     {
+      "durationSeconds": 46,
+      "turns": 4,
+      "error": null,
+      "graders": [
+       {
+        "name": "exactly-one-learn-block",
+        "passed": true
+       },
+       {
+        "name": "names-the-part",
+        "passed": true
+       },
+       {
+        "name": "system-lesson",
+        "passed": false
+       },
+       {
+        "name": "fix-handles-slash",
+        "passed": true
+       },
+       {
+        "name": "names-principle",
+        "passed": true
+       }
+      ]
+     },
+     {
+      "durationSeconds": 37,
+      "turns": 4,
+      "error": null,
+      "graders": [
+       {
+        "name": "exactly-one-learn-block",
+        "passed": true
+       },
+       {
+        "name": "names-the-part",
+        "passed": true
+       },
+       {
+        "name": "system-lesson",
+        "passed": true
+       },
+       {
+        "name": "fix-handles-slash",
+        "passed": true
+       },
+       {
+        "name": "names-principle",
+        "passed": true
+       }
+      ]
+     }
+    ],
+    "without": [
+     {
+      "durationSeconds": 27,
+      "turns": 1,
+      "error": null,
+      "graders": [
+       {
+        "name": "exactly-one-learn-block",
+        "passed": false
+       },
+       {
+        "name": "names-the-part",
+        "passed": true
+       },
+       {
+        "name": "system-lesson",
+        "passed": false
+       },
+       {
+        "name": "fix-handles-slash",
+        "passed": true
+       },
+       {
+        "name": "names-principle",
+        "passed": false
+       }
+      ]
+     },
+     {
+      "durationSeconds": 30,
+      "turns": 1,
+      "error": null,
+      "graders": [
+       {
+        "name": "exactly-one-learn-block",
+        "passed": false
+       },
+       {
+        "name": "names-the-part",
+        "passed": true
+       },
+       {
+        "name": "system-lesson",
+        "passed": false
+       },
+       {
+        "name": "fix-handles-slash",
+        "passed": true
+       },
+       {
+        "name": "names-principle",
+        "passed": false
+       }
+      ]
+     },
+     {
+      "durationSeconds": 29,
+      "turns": 1,
+      "error": null,
+      "graders": [
+       {
+        "name": "exactly-one-learn-block",
+        "passed": false
+       },
+       {
+        "name": "names-the-part",
+        "passed": true
+       },
+       {
+        "name": "system-lesson",
+        "passed": false
+       },
+       {
+        "name": "fix-handles-slash",
+        "passed": true
+       },
+       {
+        "name": "names-principle",
+        "passed": false
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "name": "routine-no-lesson",
+   "arms": {
+    "with": [
+     {
+      "durationSeconds": 6,
+      "turns": 2,
+      "error": null,
+      "graders": [
+       {
+        "name": "no-learn-block",
+        "passed": true
+       },
+       {
+        "name": "renamed",
+        "passed": true
+       },
+       {
+        "name": "old-name-gone",
+        "passed": true
+       }
+      ]
+     },
+     {
+      "durationSeconds": 4,
+      "turns": 1,
+      "error": null,
+      "graders": [
+       {
+        "name": "no-learn-block",
+        "passed": true
+       },
+       {
+        "name": "renamed",
+        "passed": true
+       },
+       {
+        "name": "old-name-gone",
+        "passed": true
+       }
+      ]
+     },
+     {
+      "durationSeconds": 4,
+      "turns": 2,
+      "error": null,
+      "graders": [
+       {
+        "name": "no-learn-block",
+        "passed": true
+       },
+       {
+        "name": "renamed",
+        "passed": true
+       },
+       {
+        "name": "old-name-gone",
+        "passed": true
+       }
+      ]
+     }
+    ],
+    "without": [
+     {
+      "durationSeconds": 4,
+      "turns": 1,
+      "error": null,
+      "graders": [
+       {
+        "name": "no-learn-block",
+        "passed": true
+       },
+       {
+        "name": "renamed",
+        "passed": true
+       },
+       {
+        "name": "old-name-gone",
+        "passed": true
+       }
+      ]
+     },
+     {
+      "durationSeconds": 3,
+      "turns": 1,
+      "error": null,
+      "graders": [
+       {
+        "name": "no-learn-block",
+        "passed": true
+       },
+       {
+        "name": "renamed",
+        "passed": true
+       },
+       {
+        "name": "old-name-gone",
+        "passed": true
+       }
+      ]
+     },
+     {
+      "durationSeconds": 3,
+      "turns": 1,
+      "error": null,
+      "graders": [
+       {
+        "name": "no-learn-block",
+        "passed": true
+       },
+       {
+        "name": "renamed",
+        "passed": true
+       },
+       {
+        "name": "old-name-gone",
+        "passed": true
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "name": "why-question",
+   "arms": {
+    "with": [
+     {
+      "durationSeconds": 26,
+      "turns": 3,
+      "error": null,
+      "graders": [
+       {
+        "name": "exactly-one-learn-block",
+        "passed": true
+       },
+       {
+        "name": "system-lesson",
+        "passed": true
+       },
+       {
+        "name": "names-principle",
+        "passed": true
+       }
+      ]
+     },
+     {
+      "durationSeconds": 30,
+      "turns": 3,
+      "error": null,
+      "graders": [
+       {
+        "name": "exactly-one-learn-block",
+        "passed": true
+       },
+       {
+        "name": "system-lesson",
+        "passed": true
+       },
+       {
+        "name": "names-principle",
+        "passed": true
+       }
+      ]
+     },
+     {
+      "durationSeconds": 29,
+      "turns": 3,
+      "error": null,
+      "graders": [
+       {
+        "name": "exactly-one-learn-block",
+        "passed": true
+       },
+       {
+        "name": "system-lesson",
+        "passed": true
+       },
+       {
+        "name": "names-principle",
+        "passed": true
+       }
+      ]
+     }
+    ],
+    "without": [
+     {
+      "durationSeconds": 17,
+      "turns": 1,
+      "error": null,
+      "graders": [
+       {
+        "name": "exactly-one-learn-block",
+        "passed": false
+       },
+       {
+        "name": "system-lesson",
+        "passed": false
+       },
+       {
+        "name": "names-principle",
+        "passed": false
+       }
+      ]
+     },
+     {
+      "durationSeconds": 15,
+      "turns": 1,
+      "error": null,
+      "graders": [
+       {
+        "name": "exactly-one-learn-block",
+        "passed": false
+       },
+       {
+        "name": "system-lesson",
+        "passed": false
+       },
+       {
+        "name": "names-principle",
+        "passed": false
+       }
+      ]
+     },
+     {
+      "durationSeconds": 15,
+      "turns": 1,
+      "error": null,
+      "graders": [
+       {
+        "name": "exactly-one-learn-block",
+        "passed": false
+       },
+       {
+        "name": "system-lesson",
+        "passed": false
+       },
+       {
+        "name": "names-principle",
+        "passed": false
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ]
+}

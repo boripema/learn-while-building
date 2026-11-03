@@ -68,6 +68,16 @@ changes to the method can be compared chat by chat. It stays on your machine.
 `claude plugin eval . --allow-tools Edit Write --judge-model sonnet` runs three cases (a failure, a why-question,
 a routine edit) with and without the plugin.
 
+**The gate for every change.** A new version ships only when it improves at least one goal and makes none worse:
+
+```
+claude plugin eval . --allow-tools Edit Write --judge-model sonnet --json new.json
+python3 evals/compare.py evals/baseline.json new.json   # PASS: exit 0; then new.json becomes the baseline
+```
+
+Each grader in the eval belongs to one goal (quality, speed, project, general; see `evals/compare.py`). One
+pass/fail flipping within a goal counts as chance; two or more as a real change. A broken run gives no verdict.
+
 ## Licence
 
 MIT

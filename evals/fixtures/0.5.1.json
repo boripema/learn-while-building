@@ -1,0 +1,350 @@
+{
+ "partial": false,
+ "cases": [
+  {
+   "name": "failure-lesson",
+   "arms": {
+    "with": [
+     {
+      "durationSeconds": 30,
+      "turns": 5,
+      "error": null,
+      "graders": [
+       {
+        "name": "exactly-one-learn-block",
+        "passed": true
+       },
+       {
+        "name": "names-the-part",
+        "passed": true
+       },
+       {
+        "name": "system-lesson",
+        "passed": false
+       }
+      ]
+     },
+     {
+      "durationSeconds": 50,
+      "turns": 5,
+      "error": null,
+      "graders": [
+       {
+        "name": "exactly-one-learn-block",
+        "passed": true
+       },
+       {
+        "name": "names-the-part",
+        "passed": true
+       },
+       {
+        "name": "system-lesson",
+        "passed": true
+       }
+      ]
+     },
+     {
+      "durationSeconds": 31,
+      "turns": 4,
+      "error": null,
+      "graders": [
+       {
+        "name": "exactly-one-learn-block",
+        "passed": true
+       },
+       {
+        "name": "names-the-part",
+        "passed": true
+       },
+       {
+        "name": "system-lesson",
+        "passed": true
+       }
+      ]
+     }
+    ],
+    "without": [
+     {
+      "durationSeconds": 20,
+      "turns": 1,
+      "error": null,
+      "graders": [
+       {
+        "name": "exactly-one-learn-block",
+        "passed": false
+       },
+       {
+        "name": "names-the-part",
+        "passed": true
+       },
+       {
+        "name": "system-lesson",
+        "passed": false
+       }
+      ]
+     },
+     {
+      "durationSeconds": 23,
+      "turns": 1,
+      "error": null,
+      "graders": [
+       {
+        "name": "exactly-one-learn-block",
+        "passed": false
+       },
+       {
+        "name": "names-the-part",
+        "passed": true
+       },
+       {
+        "name": "system-lesson",
+        "passed": false
+       }
+      ]
+     },
+     {
+      "durationSeconds": 20,
+      "turns": 1,
+      "error": null,
+      "graders": [
+       {
+        "name": "exactly-one-learn-block",
+        "passed": false
+       },
+       {
+        "name": "names-the-part",
+        "passed": true
+       },
+       {
+        "name": "system-lesson",
+        "passed": false
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "name": "routine-no-lesson",
+   "arms": {
+    "with": [
+     {
+      "durationSeconds": 6,
+      "turns": 2,
+      "error": null,
+      "graders": [
+       {
+        "name": "no-learn-block",
+        "passed": true
+       },
+       {
+        "name": "renamed",
+        "passed": true
+       },
+       {
+        "name": "old-name-gone",
+        "passed": true
+       }
+      ]
+     },
+     {
+      "durationSeconds": 5,
+      "turns": 2,
+      "error": null,
+      "graders": [
+       {
+        "name": "no-learn-block",
+        "passed": true
+       },
+       {
+        "name": "renamed",
+        "passed": true
+       },
+       {
+        "name": "old-name-gone",
+        "passed": true
+       }
+      ]
+     },
+     {
+      "durationSeconds": 4,
+      "turns": 1,
+      "error": null,
+      "graders": [
+       {
+        "name": "no-learn-block",
+        "passed": true
+       },
+       {
+        "name": "renamed",
+        "passed": true
+       },
+       {
+        "name": "old-name-gone",
+        "passed": true
+       }
+      ]
+     }
+    ],
+    "without": [
+     {
+      "durationSeconds": 2,
+      "turns": 1,
+      "error": null,
+      "graders": [
+       {
+        "name": "no-learn-block",
+        "passed": true
+       },
+       {
+        "name": "renamed",
+        "passed": true
+       },
+       {
+        "name": "old-name-gone",
+        "passed": true
+       }
+      ]
+     },
+     {
+      "durationSeconds": 3,
+      "turns": 1,
+      "error": null,
+      "graders": [
+       {
+        "name": "no-learn-block",
+        "passed": true
+       },
+       {
+        "name": "renamed",
+        "passed": true
+       },
+       {
+        "name": "old-name-gone",
+        "passed": true
+       }
+      ]
+     },
+     {
+      "durationSeconds": 2,
+      "turns": 1,
+      "error": null,
+      "graders": [
+       {
+        "name": "no-learn-block",
+        "passed": true
+       },
+       {
+        "name": "renamed",
+        "passed": true
+       },
+       {
+        "name": "old-name-gone",
+        "passed": true
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "name": "why-question",
+   "arms": {
+    "with": [
+     {
+      "durationSeconds": 31,
+      "turns": 3,
+      "error": null,
+      "graders": [
+       {
+        "name": "exactly-one-learn-block",
+        "passed": true
+       },
+       {
+        "name": "system-lesson",
+        "passed": false
+       }
+      ]
+     },
+     {
+      "durationSeconds": 23,
+      "turns": 3,
+      "error": null,
+      "graders": [
+       {
+        "name": "exactly-one-learn-block",
+        "passed": true
+       },
+       {
+        "name": "system-lesson",
+        "passed": true
+       }
+      ]
+     },
+     {
+      "durationSeconds": 23,
+      "turns": 3,
+      "error": null,
+      "graders": [
+       {
+        "name": "exactly-one-learn-block",
+        "passed": true
+       },
+       {
+        "name": "system-lesson",
+        "passed": true
+       }
+      ]
+     }
+    ],
+    "without": [
+     {
+      "durationSeconds": 14,
+      "turns": 1,
+      "error": null,
+      "graders": [
+       {
+        "name": "exactly-one-learn-block",
+        "passed": false
+       },
+       {
+        "name": "system-lesson",
+        "passed": false
+       }
+      ]
+     },
+     {
+      "durationSeconds": 20,
+      "turns": 1,
+      "error": null,
+      "graders": [
+       {
+        "name": "exactly-one-learn-block",
+        "passed": false
+       },
+       {
+        "name": "system-lesson",
+        "passed": false
+       }
+      ]
+     },
+     {
+      "durationSeconds": 15,
+      "turns": 1,
+      "error": null,
+      "graders": [
+       {
+        "name": "exactly-one-learn-block",
+        "passed": false
+       },
+       {
+        "name": "system-lesson",
+        "passed": false
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ]
+}

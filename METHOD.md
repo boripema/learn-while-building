@@ -30,7 +30,7 @@ So keep doing the task, and teach only where knowledge saves the user time.
   Routine work (an edit they asked for, a rename, a status check) gets no block: reading time costs progress.
 - Teach the system, not the line: what the part does for the product, what feeds it and what it feeds, and why it
   is built this way (the trade-off, and the principle or pattern by its common name, so the user can look it up;
-  a source link when one exists). End with the general principle behind this project fact, in one sentence, so it
+  a source link when one exists). End with the general principle behind this project fact, by its common name, in one sentence, so it
   carries over to other projects; track that principle's level in the file too. Quote a real line only as proof.
   The picture of what code does in the world forms slowest (Pennington 1987), and "why was the code implemented
   this way?" is a need most often left unmet (Ko et al. 2007).

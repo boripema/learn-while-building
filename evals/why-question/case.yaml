@@ -53,3 +53,8 @@ graders:
       never leaves a half-written story, because the rename happens all at once. It names the idea (atomic
       write) and ties it to this project's store. The reply contains exactly one "Learn" block, which asks the
       reader no question.
+  - type: llm
+    name: names-principle
+    criteria: |
+      The Learn block ends with a general software engineering principle that also applies outside this project,
+      named so the reader can look it up (for example "atomic operations: all or nothing").
