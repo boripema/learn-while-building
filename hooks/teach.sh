@@ -7,7 +7,7 @@ file="$dir/knowledge.md"
 root="$(dirname "$0")/.."
 
 if [ "$1" != start ]; then
-  echo "[learn-while-building] Teach at three moments only: a decision (the needed fact goes in the question), a failure (which part broke, why, the sign next time), their how/why question. System, not line; fade per part level. Plain short sentences everywhere; explain each technical word. Quiz one due lesson by menu in your first reply of a session. Level file: $file."
+  echo "[learn-while-building] Teach at three moments only: a decision (the needed fact goes in the question), a failure (which part broke, why, the sign next time), their how/why question. System, not line; fade per part level. Plain meaning first, detail after; explain each technical word; unknown level = 0. Big task: plain plan by menu first. Quiz one due lesson by menu in your first reply of a session. Level file: $file."
   exit 0
 fi
 

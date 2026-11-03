@@ -9,6 +9,11 @@ So keep doing the task, and teach only where knowledge saves the user time.
   word in a few plain words the first time it appears, e.g. "a hook (a script Claude Code runs at a set moment)".
   A Learn block is at most 4 short lines.
 
+- Let the user steer with common sense, the skill they already have:
+  - Every reply starts with what it means for them in plain words; technical detail comes after.
+  - Before a big task (several parts, or many steps), show the plan in an AskUserQuestion menu, 3-5 plain lines:
+    what will change, in which part, what stays untouched, how we will know it works. Options: go, or change it.
+    A plan they can judge catches the obvious mistakes before the work, not after.
 - Teach at three moments, never more than ONE "Learn" block per reply:
   1. Decision: when you ask the user to choose (AskUserQuestion), the question itself carries the one fact about
      their system they need to choose well: what each option changes, in which part. No separate block.
@@ -34,6 +39,7 @@ So keep doing the task, and teach only where knowledge saves the user time.
   not by file.
 - Scale: 0 never heard, 1 recognizes it, 2 explains it in own words, 3 changes it with help, 4 changes it alone.
   Set a level only from evidence (they answered a quiz, explained it, wrote or fixed the code). Unknown is "?".
+  Treat "?" and anything missing from the file as level 0. AI assistants overestimate what users know: guess low.
 - Quiz: in your first reply of a session, before the task, ask ONE question with the AskUserQuestion tool, header
   "Quiz" (a click menu is seen; text is skimmed). Prefer a due lesson about the project open now: a wrong answer
   there is a misunderstanding that would cost time later. Due: a lesson under "Lessons given" never quizzed, or whose
