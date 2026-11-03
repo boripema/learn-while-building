@@ -1,5 +1,7 @@
 # learn-while-building
 
+Learn while Building, by Bor Ipema.
+
 Build your project and learn how it works, in the same chat.
 
 Three goals, in this order: your project moves forward fast; you learn how this project works, so you decide,
