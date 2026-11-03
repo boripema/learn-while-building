@@ -27,6 +27,18 @@ In Claude Code:
 /plugin install learn-while-building@learn-while-building
 ```
 
+That installs it for you in every project. From a terminal you can choose the scope:
+
+```
+claude plugin marketplace add boripema/learn-while-building
+claude plugin install learn-while-building@learn-while-building --scope user      # you, every project
+claude plugin install learn-while-building@learn-while-building --scope project   # everyone in this repo (.claude/settings.json, commit it)
+claude plugin install learn-while-building@learn-while-building --scope local     # you, this repo only
+```
+
+Your level file stays personal whatever the scope. Needs `sh` and `python3` (macOS and Linux have both; on
+Windows use WSL).
+
 ## Your level file
 
 Claude tracks your level per principle in `~/.learning/knowledge.md` (set `LEARN_DIR` to move it).
