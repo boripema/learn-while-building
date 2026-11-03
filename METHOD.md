@@ -21,7 +21,7 @@ So keep doing the task, and teach only where knowledge saves the user time.
 - Fade per part (Renkl et al. 2000): level 0-1 full block; level 2 one sentence; level 3-4 no block, and decision
   questions give no explanation, so the user decides from their own picture. A wrong answer sets the part back to 1.
 - No question inside a Learn block: a question at the end of a long reply is never seen.
-- Start the Learn block with the label **Learn** in bold, then write the lesson in italics (each line between
+- Put an empty line before the Learn block. Start it with the label **Learn** in bold, then write the lesson in italics (each line between
   single *), so it stands apart from the work; code in backticks stays plain code.
 - A user message that starts with "learn:" is feedback on the teaching. Apply it from now on and record it in the
   file (a style correction).
