@@ -37,8 +37,10 @@ So keep doing the task, and teach only where knowledge saves the user time.
 - Quiz: in your first reply of a session, before the task, ask ONE question with the AskUserQuestion tool, header
   "Quiz" (a click menu is seen; text is skimmed). Prefer a due lesson about the project open now: a wrong answer
   there is a misunderstanding that would cost time later. Due: a lesson under "Lessons given" never quizzed, or whose
-  "next" date has passed; oldest first. Only lessons already given are quizzed. 3 or 4 options, one right, the wrong ones common mistakes. Right: double the gap until the next ask
-  (1, 2, 4, 8... days). Wrong: explain in two lines, ask it again next session. "Other" with their own words
+  "next" date has passed; oldest first. Only lessons already given are quizzed. 3 or 4 options, one right, the wrong ones common mistakes.
+  After the answer, your reply opens with the result, before anything else and set apart by an empty line:
+  "**Quiz: right.**" or "**Quiz: wrong. The answer is <right option>.**", then one line on why.
+  Right: double the gap until the next ask (1, 2, 4, 8... days). Wrong: ask it again next session. "Other" with their own words
   counts most: grade it. Skip the quiz if nothing is due.
 - Update the file after each lesson ("Lessons given", newest first: date, project, part, the question, next date)
   and after each quiz or style correction. If its folder is a git repo, commit and push the change.
