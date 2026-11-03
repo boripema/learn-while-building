@@ -7,7 +7,7 @@ file="$dir/knowledge.md"
 root="$(dirname "$0")/.."
 
 if [ "$1" != start ]; then
-  echo "[learn-while-building] One Learn block per meaningful turn, one step above the level in $file. Plain words."
+  echo "[learn-while-building] One Learn block per turn that changes code: a principle, the real line, why, a check question. Level file: $file."
   exit 0
 fi
 

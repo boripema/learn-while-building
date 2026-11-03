@@ -1,12 +1,16 @@
 # learn-while-building
 
-A Claude Code plugin that teaches you while Claude builds with you: one short lesson per turn, from your own code,
-one step above what you already know.
+Turn your Claude Code chats into lessons in coding principles.
 
-Built-in output styles like Learning add several explanations per turn. This plugin keeps it to one, so you learn
-without overload.
+Claude keeps doing your task. At the end of each turn that changes code, it adds one short Learn block:
+the principle behind a line it just wrote (DRY, YAGNI, fail fast, least privilege...), that real line explained,
+why the principle exists, and one check question. It tracks what you know and teaches one step above it.
+
+One lesson per turn, so you learn without overload.
 
 ## Install
+
+In Claude Code:
 
 ```
 /plugin marketplace add boripema/learn-while-building
@@ -15,12 +19,14 @@ without overload.
 
 ## Your level file
 
-Claude tracks what you know in `~/.learning/knowledge.md` (set `LEARN_DIR` to move it). It is created on first use.
-To share it across devices, make that folder a private git repo: the plugin pulls it at session start, and Claude
-pushes after each update.
+Claude tracks your level per principle in `~/.learning/knowledge.md` (set `LEARN_DIR` to move it).
+It is created on first use, with twelve common principles to start from.
+
+To use it on several devices, make that folder a private git repo. The plugin pulls it when a session starts,
+and Claude pushes after each update:
 
 ```
-gh repo create learning-progress --private --clone && mv learning-progress ~/.learning
+gh repo create learning-progress --private --clone ~/.learning
 ```
 
 ## Check

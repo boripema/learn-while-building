@@ -6,7 +6,7 @@
     {
       "name": "learn-while-building",
       "source": "./",
-      "description": "Claude teaches you one lesson per turn, from the code you build together."
+      "description": "Turn your Claude Code chats into lessons in coding principles."
     }
   ]
 }
