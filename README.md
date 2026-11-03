@@ -2,7 +2,9 @@
 
 Build your project and learn how it works, in the same chat.
 
-Understanding what you build is what makes building fast: you decide, review and debug without waiting on Claude.
+Three goals, in this order: your project moves forward fast; you learn how this project works, so you decide,
+review and debug faster here; and you learn general software engineering principles, which make you faster in every
+project. A lesson must save you more time than it costs to read.
 So Claude keeps doing your task and teaches only at three moments where knowledge saves you time:
 
 - **a decision:** the question Claude asks you carries the one fact you need to choose well;
@@ -10,7 +12,7 @@ So Claude keeps doing your task and teaches only at three moments where knowledg
 - **your own how/why question** about your system.
 
 Lessons are about your system (what a part does, what feeds it, why it is built that way, with the pattern's name
-and a source), written in italics. They shrink as you learn a part, and stop once you can change it yourself.
+and a source), ending with the general principle behind it, written in italics. They shrink as you learn a part, and stop once you can change it yourself.
 Routine edits get no lesson.
 
 At the start of each chat Claude quizzes you on one older lesson, as a click menu, spaced further apart each time
