@@ -19,12 +19,12 @@ echo "{\"transcript_path\":\"$tmp/t.jsonl\",\"session_id\":\"s\",\"cwd\":\"/x/de
 test "$(grep -c . "$tmp/events.jsonl")" = 3
 grep -q '"kind": "decision", "seconds": 30.0' "$tmp/events.jsonl"
 grep -q '"kind": "lesson"' "$tmp/events.jsonl"
-! grep -q "is this old" "$tmp/events.jsonl"
+grep -q "is this old" "$tmp/events.jsonl" && exit 1
 echo '{"type":"user","timestamp":"2026-11-03T10:03:00Z","message":{"content":"learn: too long"}}' >> "$tmp/t.jsonl"
 echo "{\"transcript_path\":\"$tmp/t.jsonl\"}" | LEARN_DIR="$tmp" python3 "$(dirname "$0")/hooks/log.py"
 grep -q '"kind": "feedback", "text": "too long"' "$tmp/events.jsonl"
 # The gate must pass a known improvement (0.5.2 fixed a lesson) and refuse the same change reversed.
 python3 "$(dirname "$0")/evals/compare.py" "$(dirname "$0")/evals/fixtures/0.5.1.json" "$(dirname "$0")/evals/fixtures/0.5.2.json" >/dev/null
-! python3 "$(dirname "$0")/evals/compare.py" "$(dirname "$0")/evals/fixtures/0.5.2.json" "$(dirname "$0")/evals/fixtures/0.5.1.json" >/dev/null
+python3 "$(dirname "$0")/evals/compare.py" "$(dirname "$0")/evals/fixtures/0.5.2.json" "$(dirname "$0")/evals/fixtures/0.5.1.json" >/dev/null && exit 1
 rm -rf "$tmp"
 echo ok
