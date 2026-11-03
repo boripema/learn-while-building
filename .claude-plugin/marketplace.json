@@ -6,7 +6,7 @@
     {
       "name": "learn-while-building",
       "source": "./",
-      "description": "Turn your Claude Code chats into lessons in coding principles."
+      "description": "Build your project and learn how it works, in the same chat."
     }
   ]
 }

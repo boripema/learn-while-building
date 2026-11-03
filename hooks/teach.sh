@@ -7,7 +7,7 @@ file="$dir/knowledge.md"
 root="$(dirname "$0")/.."
 
 if [ "$1" != start ]; then
-  echo "[learn-while-building] One Learn block per turn that changes code: a principle, the real line, why. Quiz one due lesson by menu in your first reply of a session. Level file: $file."
+  echo "[learn-while-building] One Learn block per turn that changes code: the part of their system it touched, the real line, why it is built so, what it lets them do next. Quiz one due lesson by menu in your first reply of a session. Level file: $file."
   exit 0
 fi
 

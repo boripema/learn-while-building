@@ -18,3 +18,5 @@ For Claude: read before teaching, update after every lesson. Add a row for any p
 | Self-testing code | https://martinfowler.com/bliki/SelfTestingCode.html | ? | | |
 
 ## Lessons given (newest first)
+
+## Project: <name> (one section per project: part | level | evidence)

@@ -1,12 +1,14 @@
 # learn-while-building
 
-Turn your Claude Code chats into lessons in coding principles.
+Build your project and learn how it works, in the same chat.
 
-Claude keeps doing your task. At the end of each turn that changes code, it adds one short Learn block:
-the principle behind a line it just wrote (DRY, YAGNI, fail fast, least privilege...), that real line explained,
-and why the principle exists. At the start of each chat it quizzes you on one older lesson, as a click menu, spaced further apart each time you get it right. It tracks what you know and teaches one step above it.
+Understanding what you build is what makes building fast: you decide, review and debug without waiting on Claude.
+So Claude keeps doing your task, and each turn that changes code ends with one short Learn block:
+the part of your system it touched and how it fits the whole, the real line explained, why it is built that way
+(the principle behind it, with a source), and what this lets you do next.
 
-One lesson per turn, so you learn without overload.
+At the start of each chat Claude quizzes you on one older lesson, as a click menu, spaced further apart each time
+you get it right. It tracks what you know, per principle and per part of each project, and teaches one step above it.
 
 ## Install
 

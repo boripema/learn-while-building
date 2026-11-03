@@ -1,7 +1,7 @@
 {
   "name": "learn-while-building",
-  "version": "0.2.0",
-  "description": "Turn your Claude Code chats into lessons in coding principles: one per turn, from the code just written, one step above your level.",
+  "version": "0.3.0",
+  "description": "Turn your Claude Code chats into lessons in coding principles: learn how your own system works while you build it, one lesson per turn.",
   "author": { "name": "Bor Ipema" },
   "license": "MIT"
 }
