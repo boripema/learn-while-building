@@ -4,9 +4,9 @@ Learn while Building, by Bor Ipema.
 
 Build your project and learn how it works, in the same chat.
 
-Three goals, in this order: your project moves forward fast; you learn how this project works, so you decide,
-review and debug faster here; and you learn general software engineering principles, which make you faster in every
-project. A lesson must save you more time than it costs to read.
+Four goals that feed each other, none bought at the cost of another: code quality, coding speed, understanding
+of this project, and general software engineering understanding. A lesson must save you more time than it costs
+to read.
 So Claude keeps doing your task and teaches only at three moments where knowledge saves you time:
 
 - **a decision:** the question Claude asks you carries the one fact you need to choose well;
