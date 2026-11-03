@@ -12,7 +12,7 @@ So Claude keeps doing your task and teaches only at three moments where knowledg
 - **your own how/why question** about your system.
 
 Lessons are about your system (what a part does, what feeds it, why it is built that way, with the pattern's name
-and a source), ending with the general principle behind it, written in italics. They shrink as you learn a part, and stop once you can change it yourself.
+and a source), ending with the general principle behind it, under a bold **Learn** label, in italics. They shrink as you learn a part, and stop once you can change it yourself.
 Routine edits get no lesson.
 
 At the start of each chat Claude quizzes you on one older lesson, as a click menu, spaced further apart each time
