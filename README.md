@@ -3,12 +3,18 @@
 Build your project and learn how it works, in the same chat.
 
 Understanding what you build is what makes building fast: you decide, review and debug without waiting on Claude.
-So Claude keeps doing your task, and each turn that changes code ends with one short Learn block:
-the part of your system it touched and how it fits the whole, the real line explained, why it is built that way
-(the principle behind it, with a source), and what this lets you do next.
+So Claude keeps doing your task and teaches only at three moments where knowledge saves you time:
+
+- **a decision:** the question Claude asks you carries the one fact you need to choose well;
+- **a failure:** after something broke, which part broke, why, and the sign that shows it next time;
+- **your own how/why question** about your system.
+
+Lessons are about your system (what a part does, what feeds it, why it is built that way, with the pattern's name
+and a source), written in italics. They shrink as you learn a part, and stop once you can change it yourself.
+Routine edits get no lesson.
 
 At the start of each chat Claude quizzes you on one older lesson, as a click menu, spaced further apart each time
-you get it right. It tracks what you know, per principle and per part of each project, and teaches one step above it.
+you get it right.
 
 ## Install
 
@@ -31,9 +37,20 @@ and Claude pushes after each update:
 gh repo create learning-progress --private --clone ~/.learning
 ```
 
+## Feedback and log
+
+Start a message with `learn:` to give feedback on the teaching ("learn: too long"). Claude applies it from then on.
+
+After every reply a hook appends what happened to `~/.learning/events.jsonl`: lessons, decisions (with seconds
+to answer), quiz answers, your questions and your `learn:` feedback. Each line carries the plugin version, so
+changes to the method can be compared chat by chat. It stays on your machine.
+
 ## Check
 
-`sh test.sh` runs the hook against a temporary folder.
+`sh test.sh` runs the hooks against a temporary folder.
+
+`claude plugin eval . --allow-tools Edit Write --judge-model sonnet` runs three cases (a failure, a why-question,
+a routine edit) with and without the plugin.
 
 ## Licence
 

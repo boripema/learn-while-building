@@ -1,0 +1,55 @@
+schema_version: "1"
+name: routine-no-lesson
+description: A routine edit the user asked for gets no Learn block; reading time costs progress.
+execution:
+  prompt: |
+    This is my project, two files.
+
+    store.py:
+    ```python
+    # Saves stories as text files, one per title.
+    import os
+
+
+    def save_story(title, text):
+        # Write to a temp file, then rename: a crash mid-write never leaves half a story behind.
+        path = os.path.join("stories", title + ".txt")
+        tmp = path + ".tmp"
+        with open(tmp, "w") as f:
+            f.write(text)
+        os.replace(tmp, path)
+
+
+    def load_story(title):
+        with open(os.path.join("stories", title + ".txt")) as f:
+            return f.read()
+    ```
+
+    app.py:
+    ```python
+    # Takes a story from the writer and stores it.
+    from store import save_story
+
+
+    def publish(title, text):
+        save_story(title, text)
+        return "saved " + title
+    ```
+
+    Rename the function publish in app.py to publish_story and give me the new app.py. Nothing else.
+  allowed_tools: [Read, Edit, Write]
+  max_turns: 10
+runs: 3
+graders:
+  - type: regex
+    name: no-learn-block
+    pattern: '^\s*[#>*_`●\s]*Learn\b'
+    flags: mi
+    match: not_contains
+  - type: regex
+    name: renamed
+    pattern: 'def publish_story\('
+  - type: regex
+    name: old-name-gone
+    pattern: 'def publish\('
+    match: not_contains

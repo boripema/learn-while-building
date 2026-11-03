@@ -1,0 +1,58 @@
+schema_version: "1"
+name: failure-lesson
+description: After finding why something broke, one Learn block on the part that broke, why, and the sign next time.
+execution:
+  prompt: |
+    This is my project, two files.
+
+    store.py:
+    ```python
+    # Saves stories as text files, one per title.
+    import os
+
+
+    def save_story(title, text):
+        # Write to a temp file, then rename: a crash mid-write never leaves half a story behind.
+        path = os.path.join("stories", title + ".txt")
+        tmp = path + ".tmp"
+        with open(tmp, "w") as f:
+            f.write(text)
+        os.replace(tmp, path)
+
+
+    def load_story(title):
+        with open(os.path.join("stories", title + ".txt")) as f:
+            return f.read()
+    ```
+
+    app.py:
+    ```python
+    # Takes a story from the writer and stores it.
+    from store import save_story
+
+
+    def publish(title, text):
+        save_story(title, text)
+        return "saved " + title
+    ```
+
+    A writer published a story titled "AI/ML basics" and it was never saved: publish() crashed. Find why and give me the fixed store.py.
+  allowed_tools: [Read, Edit, Write]
+  max_turns: 15
+runs: 3
+graders:
+  - type: regex
+    name: exactly-one-learn-block
+    pattern: '^\s*[#>*_`●\s]*Learn\b'
+    flags: mi
+    match: "count:1"
+  - type: regex
+    name: names-the-part
+    pattern: 'store|save_story'
+    flags: i
+  - type: llm
+    name: system-lesson
+    criteria: |
+      The reply contains exactly one "Learn" block. In plain words, that block says which part of the project
+      broke (the store / saving stories), why the "/" in the title broke it (it is read as a folder in the
+      path), and how to recognise this kind of problem next time. It asks the reader no question.

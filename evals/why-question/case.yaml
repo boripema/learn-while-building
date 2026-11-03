@@ -1,0 +1,55 @@
+schema_version: "1"
+name: why-question
+description: The user's own why-question about their system is answered as one system-level Learn block.
+execution:
+  prompt: |
+    This is my project, two files.
+
+    store.py:
+    ```python
+    # Saves stories as text files, one per title.
+    import os
+
+
+    def save_story(title, text):
+        # Write to a temp file, then rename: a crash mid-write never leaves half a story behind.
+        path = os.path.join("stories", title + ".txt")
+        tmp = path + ".tmp"
+        with open(tmp, "w") as f:
+            f.write(text)
+        os.replace(tmp, path)
+
+
+    def load_story(title):
+        with open(os.path.join("stories", title + ".txt")) as f:
+            return f.read()
+    ```
+
+    app.py:
+    ```python
+    # Takes a story from the writer and stores it.
+    from store import save_story
+
+
+    def publish(title, text):
+        save_story(title, text)
+        return "saved " + title
+    ```
+
+    Why does save_story write to a .tmp file and then rename it, instead of writing the story file directly?
+  allowed_tools: [Read, Edit, Write]
+  max_turns: 10
+runs: 3
+graders:
+  - type: regex
+    name: exactly-one-learn-block
+    pattern: '^\s*[#>*_`●\s]*Learn\b'
+    flags: mi
+    match: "count:1"
+  - type: llm
+    name: system-lesson
+    criteria: |
+      The reply explains in plain words that writing to a temp file and then renaming means a crash halfway
+      never leaves a half-written story, because the rename happens all at once. It names the idea (atomic
+      write) and ties it to this project's store. The reply contains exactly one "Learn" block, which asks the
+      reader no question.
