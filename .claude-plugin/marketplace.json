@@ -1,0 +1,12 @@
+{
+  "name": "learn-while-building",
+  "owner": { "name": "Bor Ipema" },
+  "metadata": { "description": "Learn while Claude builds with you." },
+  "plugins": [
+    {
+      "name": "learn-while-building",
+      "source": "./",
+      "description": "Claude teaches you one lesson per turn, from the code you build together."
+    }
+  ]
+}

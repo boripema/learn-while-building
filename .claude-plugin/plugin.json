@@ -1,0 +1,7 @@
+{
+  "name": "learn-while-building",
+  "version": "0.1.0",
+  "description": "Claude teaches you one lesson per turn, from the code you build together, pitched one step above your tracked level.",
+  "author": { "name": "Bor Ipema" },
+  "license": "MIT"
+}

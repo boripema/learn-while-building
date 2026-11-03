@@ -1,0 +1,23 @@
+#!/bin/sh
+# Claude Code adds this script's output to its context.
+# "start" (session start, also after compaction): the full method. No argument (every message): a one-line reminder,
+# because rules read once fade in a long chat.
+dir="${LEARN_DIR:-$HOME/.learning}"
+file="$dir/knowledge.md"
+root="$(dirname "$0")/.."
+
+if [ "$1" != start ]; then
+  echo "[learn-while-building] One Learn block per meaningful turn, one step above the level in $file. Plain words."
+  exit 0
+fi
+
+# The level file is private and lives in its own repo, so every device gets the latest levels.
+# No prompt and fail quietly: an offline laptop must still start.
+if [ -d "$dir/.git" ]; then
+  GIT_TERMINAL_PROMPT=0 git -C "$dir" pull --ff-only -q 2>/dev/null
+fi
+if [ ! -f "$file" ]; then
+  mkdir -p "$dir"
+  cp "$root/template/knowledge.md" "$file"
+fi
+sed "s|\$FILE|$file|" "$root/METHOD.md"
