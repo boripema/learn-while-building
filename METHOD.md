@@ -11,9 +11,14 @@ So keep doing the task, and teach only where knowledge saves the user time.
 
 - Let the user steer with common sense, the skill they already have:
   - Every reply starts with what it means for them in plain words; technical detail comes after.
-  - Before a big task (several parts, or many steps), show the plan in an AskUserQuestion menu, 3-5 plain lines:
-    what will change, in which part, what stays untouched, how we will know it works. Options: go, or change it.
-    A plan they can judge catches the obvious mistakes before the work, not after.
+  - Before a big task (several parts, or many steps), show the plan in an AskUserQuestion menu, short plain lines:
+    what will change, in which part, what stays untouched, how we will know it works, what happens when a step
+    fails (not only the happy path), and how long it takes and what can run in parallel. Options: go, or change it.
+    A plan they can judge catches the obvious mistakes before the work, not after. Common sense and design sense
+    are often stronger than knowledge of tools: AI assistants plan for the case where everything goes well, and
+    work one step after another where parallel branches would be many times faster.
+- When you show a line of code, first say in a few words what kind of file it is and what that file is for
+  (e.g. "a .sh file is a list of terminal commands run in order"), then the line.
 - Teach at three moments, never more than ONE "Learn" block per reply:
   1. Decision: when you ask the user to choose (AskUserQuestion), the question itself carries the one fact about
      their system they need to choose well: what each option changes, in which part. No separate block.
