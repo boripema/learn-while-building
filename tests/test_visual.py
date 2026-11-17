@@ -2,7 +2,6 @@ import importlib.util
 import json
 import os
 from pathlib import Path
-import subprocess
 import sys
 import tempfile
 import unittest
@@ -60,7 +59,7 @@ class GraphTests(unittest.TestCase):
         b.unlink()
         data = visual.refresh(self.root)
         self.assertEqual(data['links'], [])
-        self.assertEqual(data['history'][0]['deleted'], ['b.js'])
+        self.assertEqual([n['path'] for n in data['nodes']], ['a.js'])
 
     def test_comments_and_example_strings_are_not_imports(self):
         source = '''// import './wrong1';
@@ -91,7 +90,7 @@ import('./dynamic');
     def test_skips_notes_dependencies_and_privacy_markers(self):
         self.write('notes.md', 'privacy: no-ai\nDo not process this note.')
         self.write('node_modules/package/a.js', 'export const x=1;')
-        self.write('Ideaverse/a.py', 'private = True')
+        self.write('venv/a.py', 'private = True')
         self.write('.hidden/a.py', 'private = True')
         self.write('credentials.py', 'private = True')
         self.write('private.py', '# privacy: no-ai\nx=1')
@@ -99,15 +98,12 @@ import('./dynamic');
         data = visual.refresh(self.root)
         self.assertEqual([n['path'] for n in data['nodes']], ['public.py'])
 
-    def test_focus_combines_multiple_tool_changes(self):
-        self.write('a.py', 'x=1')
-        self.write('b.py', 'x=2')
-        visual.refresh(self.root)
-        visual.refresh(self.root, focus=['a.py'], event_name='PostToolUse')
-        visual.refresh(self.root, focus=['b.py'], event_name='PostToolUse')
-        data = visual.refresh(self.root, event_name='Stop')
-        self.assertEqual(data['focus'], ['a.py', 'b.py'])
-        self.assertEqual(data['pending'], [])
+    def test_key_like_string_skips_only_that_file(self):
+        self.write('fixture.py', 'TOKEN = "ghp_' + 'a' * 30 + '"\n')
+        self.write('public.py', 'x=1')
+        data = visual.refresh(self.root)
+        self.assertEqual([n['path'] for n in data['nodes']], ['public.py'])
+        self.assertEqual(data['stats']['skipped'], 1)
 
     def test_source_snippets_have_exact_lines(self):
         self.write('service.ts', 'export async function run() {\n  const result = await fetch("/data");\n  return result;\n}\n')
@@ -115,24 +111,6 @@ import('./dynamic');
         excerpt = n['excerpts'][0]
         self.assertEqual(excerpt['highlight'], 2)
         self.assertIn('await fetch', excerpt['lines'][excerpt['highlight']-excerpt['line']])
-
-    def test_hook_guards_are_silent_and_do_not_create_cache(self):
-        for payload in ('broken', 'null', '[]', '{}',
-                        json.dumps({'hook_event_name':'SessionStart','cwd':str(self.root),'agent_id':'child'}),
-                        json.dumps({'hook_event_name':'SessionStart','cwd':str(self.root),'agent_type':'Explore'}),
-                        json.dumps({'hook_event_name':'SessionStart','cwd':str(self.root),'transcript_path':'C:\\p\\subagents\\a.jsonl'})):
-            result = subprocess.run([sys.executable, str(ROOT/'hooks/visual.py'), 'hook'], input=payload, capture_output=True, text=True)
-            self.assertEqual(result.returncode, 0)
-            self.assertEqual(result.stdout+result.stderr, '')
-        self.assertFalse(visual.base_dir().exists())
-
-    def test_main_hook_no_transcript_reads_or_output(self):
-        self.write('main.py', 'x=1')
-        event = {'hook_event_name':'SessionStart','cwd':str(self.root),'transcript_path':'DOES_NOT_EXIST','session_id':'test'}
-        result = subprocess.run([sys.executable, str(ROOT/'hooks/visual.py'), 'hook'], input=json.dumps(event), capture_output=True, text=True)
-        self.assertEqual(result.returncode, 0)
-        self.assertEqual(result.stdout+result.stderr, '')
-        self.assertEqual(len([p for p in (visual.base_dir()/'projects').glob('*.json') if not p.name.endswith('.meta.json')]), 1)
 
     def test_no_llm_or_subagent_hooks_configured(self):
         hooks = json.loads((ROOT/'hooks/hooks.json').read_text())['hooks']
@@ -143,11 +121,6 @@ import('./dynamic');
                     self.assertEqual(hook['type'], 'command')
                     self.assertIn('visual.py', hook['command'])
                     self.assertNotIn('teach.py', hook['command'])
-
-    def test_disabled_hook_does_nothing(self):
-        with patch.dict(os.environ, {'LEARN_ENABLED':'0'}):
-            visual.hook({'hook_event_name':'SessionStart','cwd':str(self.root)})
-        self.assertFalse(visual.base_dir().exists())
 
     def test_practice_accepts_equivalent_expression_and_explains_failure(self):
         example = visual.practice_example('def doubled(x):\n    return x * 2\n')

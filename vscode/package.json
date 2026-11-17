@@ -2,7 +2,7 @@
   "name": "learn-while-building-visual",
   "displayName": "Learn while Building \u2014 Test Alpha",
   "description": "Focused visual steps, highlighted source and optional local Python practice.",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "publisher": "boripema",
   "license": "MIT",
   "engines": {

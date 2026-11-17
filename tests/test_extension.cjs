@@ -5,7 +5,8 @@ const path = require("path");
 const vm = require("vm");
 const source = path.resolve(__dirname, "../vscode");
 function setup(locked = false) {
-  const base = require("os").tmpdir();
+  // macOS: /var is a link to /private/var; compare real paths.
+  const base = fs.realpathSync(require("os").tmpdir());
   const temp = fs.mkdtempSync(path.join(base, "learn-extension-test-"));
   test.after(() => {
     if (

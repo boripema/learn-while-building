@@ -17,7 +17,7 @@ PARSER_VERSION = 2
 
 EXTENSIONS = {'.py', '.js', '.jsx', '.ts', '.tsx', '.mjs', '.cjs'}
 SKIP = {'node_modules', 'vendor', 'dist', 'build', 'coverage', '__pycache__',
-        'venv', 'env', 'target', 'outputs', 'work', 'Ideaverse', 'AI-Workbench'}
+        'venv', 'env', 'target'}
 MAX_FILES = 2000
 MAX_BYTES = 64_000
 CONCEPTS = [
@@ -212,133 +212,82 @@ def atomic_json(path, data):
             os.unlink(name)
 
 
-def refresh(root, focus=None, session=None, event_name=None):
+def refresh(root):
+    # One scan at a time is the extension's job (its scan.lock); writes here are atomic.
     root = Path(root).resolve()
     ident = hashlib.sha256(os.path.normcase(str(root)).encode()).hexdigest()[:20]
     directory = base_dir() / 'projects'
     directory.mkdir(parents=True, exist_ok=True)
-    lock = directory / (ident + '.lock')
-    # Separate sessions share a lock; no model is asked to coordinate them.
-    for _ in range(20):
-        try:
-            lock.mkdir()
-            break
-        except FileExistsError:
-            if time.time() - lock.stat().st_mtime > 60:
-                try:
-                    lock.rmdir()
-                except OSError:
-                    pass
-            time.sleep(.05)
-    else:
-        return None
+    dest = directory / (ident + '.json')
     try:
-        dest = directory / (ident + '.json')
-        try:
-            previous = json.loads(dest.read_text(encoding='utf-8'))
-        except (OSError, ValueError):
-            previous = {}
-        cached = {n['path']: n for n in previous.get('nodes', [])}
-        paths, truncated = source_paths(root)
-        nodes = []
-        changed = []
-        skipped = 0
-        parsed = 0
-        for path in paths:
-            stat = path.stat()
-            if stat.st_size > MAX_BYTES:
+        previous = json.loads(dest.read_text(encoding='utf-8'))
+    except (OSError, ValueError):
+        previous = {}
+    cached = {n['path']: n for n in previous.get('nodes', [])}
+    paths, truncated = source_paths(root)
+    nodes = []
+    changed = []
+    skipped = 0
+    parsed = 0
+    for path in paths:
+        stat = path.stat()
+        if stat.st_size > MAX_BYTES:
+            skipped += 1
+            continue
+        relative = path.relative_to(root).as_posix()
+        fingerprint = [stat.st_mtime_ns, stat.st_size]
+        if relative in cached and cached[relative].get('parserVersion') == PARSER_VERSION and cached[relative].get('stat') == fingerprint:
+            nodes.append(cached[relative])
+            continue
+        raw = path.read_bytes()
+        digest = hashlib.sha256(raw).hexdigest()
+        if relative in cached and cached[relative].get('parserVersion') == PARSER_VERSION and cached[relative]['digest'] == digest:
+            node = cached[relative]
+        else:
+            text = raw.decode('utf-8', errors='replace')
+            # Never cache source excerpts from explicitly excluded content.
+            if re.search(r'privacy:\s*(?:tier-0|no-ai)', text, re.I):
                 skipped += 1
                 continue
-            relative = path.relative_to(root).as_posix()
-            fingerprint = [stat.st_mtime_ns, stat.st_size]
-            if relative in cached and cached[relative].get('parserVersion') == PARSER_VERSION and cached[relative].get('stat') == fingerprint:
-                nodes.append(cached[relative])
+            # A key-like string skips this file only, not the whole project.
+            if re.search(r'-----BEGIN [A-Z ]*PRIVATE KEY-----|\b(?:sk-ant-|ghp_)[A-Za-z0-9_-]{20,}', text):
+                skipped += 1
                 continue
-            raw = path.read_bytes()
-            digest = hashlib.sha256(raw).hexdigest()
-            if relative in cached and cached[relative].get('parserVersion') == PARSER_VERSION and cached[relative]['digest'] == digest:
-                node = cached[relative]
+            node = dict(parse_source(relative, text), digest=digest)
+            parsed += 1
+            changed.append(relative)
+        node['stat'] = fingerprint
+        nodes.append(node)
+    available = {n['path'] for n in nodes}
+    deleted = sorted(set(cached) - available)
+    links = []
+    unresolved = 0
+    for node in nodes:
+        for imp in node['imports']:
+            target = resolve_import(node['path'], imp, available)
+            if target:
+                links.append({'source': node['path'], 'target': target,
+                              'line': imp['line'], 'kind': 'imports', 'evidence': 'static import'})
             else:
-                text = raw.decode('utf-8', errors='replace')
-                # Never cache source excerpts from explicitly excluded content.
-                if re.search(r'privacy:\s*(?:tier-0|no-ai)', text, re.I):
-                    skipped += 1
-                    continue
-                if re.search(r'-----BEGIN [A-Z ]*PRIVATE KEY-----|\b(?:sk-ant-|ghp_)[A-Za-z0-9_-]{20,}', text):
-                    raise ValueError('Possible credential detected; stopped without caching this scan.')
-                node = dict(parse_source(relative, text), digest=digest)
-                parsed += 1
-                changed.append(relative)
-            node['stat'] = fingerprint
-            nodes.append(node)
-        available = {n['path'] for n in nodes}
-        deleted = sorted(set(cached) - available)
-        links = []
-        unresolved = 0
-        for node in nodes:
-            for imp in node['imports']:
-                target = resolve_import(node['path'], imp, available)
-                if target:
-                    links.append({'source': node['path'], 'target': target,
-                                  'line': imp['line'], 'kind': 'imports', 'evidence': 'static import'})
-                else:
-                    unresolved += 1
-        pending = previous.get('pending', [])
-        if event_name == 'PostToolUse':
-            pending = list(dict.fromkeys(pending + (focus or changed)))
-        focus_paths = [p for p in (pending + changed if event_name == 'Stop' else focus or changed) if p in available]
-        if not focus_paths:
-            focus_paths = [p for p in previous.get('focus', []) if p in available]
-        initial = not previous
-        history = previous.get('history', [])
-        if changed or deleted:
-            history = [{'at': time.time(), 'changed': changed, 'deleted': deleted,
-                        'initial': initial, 'session': session}] + history[:19]
-        sessions = previous.get('sessions', {})
-        if session:
-            sessions[hashlib.sha256(session.encode()).hexdigest()[:10]] = time.time()
-        sessions = {s: t for s, t in sessions.items() if time.time() - t < 24 * 3600}
-        data = {'schema': 1, 'id': ident, 'name': root.name, 'root': str(root),
-                'updated': time.time() if changed or deleted or initial else previous['updated'], 'nodes': nodes, 'links': links,
-                'focus': focus_paths, 'pending': [] if event_name == 'Stop' else pending,
-                'history': history, 'sessions': sessions,
-                'stats': {'parsed': parsed, 'cached': len(nodes) - parsed,
-                          'unresolved': unresolved, 'truncated': truncated, 'skipped': skipped},
-                'budget': {'modelCalls': 0, 'injectedBytes': 0,
-                           'mode': 'local-only', 'wholeTaskOverhead': None}}
-        atomic_json(dest, data)
-        summary = {k: v for k, v in data.items() if k not in {'nodes', 'links', 'history', 'pending'}}
-        atomic_json(directory / (ident + '.meta.json'), summary)
-        return data
-    finally:
-        lock.rmdir()
-
-
-def hook(event):
-    if os.environ.get('LEARN_ENABLED', '1') == '0' or not isinstance(event, dict):
-        return
-    if event.get('agent_id') or event.get('agent_type') or '/subagents/' in str(event.get('transcript_path', '')).replace('\\', '/'):
-        return
-    if event.get('hook_event_name') not in {'SessionStart', 'PostToolUse', 'Stop'} or not event.get('cwd'):
-        return
-    # Never read transcript_path, prompts, tool results, or assistant output.
-    root = project_root(event['cwd'])
-    incoming = (event.get('tool_input') or {}).get('file_path')
-    focus = None
-    if incoming:
-        try:
-            target = Path(incoming)
-            if not target.is_absolute():
-                target = Path(event['cwd']) / target
-            focus = [target.resolve().relative_to(root).as_posix()]
-        except ValueError:
-            pass
-    refresh(root, focus=focus, session=event.get('session_id'), event_name=event['hook_event_name'])
+                unresolved += 1
+    focus_paths = changed or [p for p in previous.get('focus', []) if p in available]
+    initial = not previous
+    data = {'schema': 1, 'id': ident, 'name': root.name, 'root': str(root),
+            'updated': time.time() if changed or deleted or initial else previous['updated'], 'nodes': nodes, 'links': links,
+            'focus': focus_paths,
+            'stats': {'parsed': parsed, 'cached': len(nodes) - parsed,
+                      'unresolved': unresolved, 'truncated': truncated, 'skipped': skipped},
+            'budget': {'modelCalls': 0, 'injectedBytes': 0,
+                       'mode': 'local-only', 'wholeTaskOverhead': None}}
+    atomic_json(dest, data)
+    summary = {k: v for k, v in data.items() if k not in {'nodes', 'links'}}
+    atomic_json(directory / (ident + '.meta.json'), summary)
+    return data
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('command', choices=['hook', 'scan', 'practice'])
+    parser.add_argument('command', choices=['scan', 'practice'])
     parser.add_argument('root', nargs='?')
     args = parser.parse_args()
     if os.environ.get('LEARN_ENABLED', '1') == '0':
@@ -349,22 +298,9 @@ def main():
         # Host supplies the indexed reference; no file paths or executable code.
         print(json.dumps(check_practice(example, request.get('answer', ''))))
         return
-    if args.command == 'hook':
-        try:
-            event = json.load(sys.stdin)
-        except ValueError:
-            return
-        try:
-            hook(event)
-        except Exception as error:
-            # Errors stay local; sending stderr to the agent would waste tokens.
-            dest = base_dir() / 'status.json'
-            atomic_json(dest, {'at': time.time(), 'error': str(error)[:200]})
-    else:
-        data = refresh(project_root(args.root or os.getcwd()))
-        if data:
-            print(json.dumps({'project': data['name'], 'files': len(data['nodes']),
-                              'links': len(data['links']), 'stats': data['stats']}))
+    data = refresh(project_root(args.root or os.getcwd()))
+    print(json.dumps({'project': data['name'], 'files': len(data['nodes']),
+                      'links': len(data['links']), 'stats': data['stats']}))
 
 
 if __name__ == '__main__':

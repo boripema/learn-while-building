@@ -7,7 +7,6 @@ const crypto = require("crypto");
 const { execFile } = require("child_process");
 let panel,
   context,
-  timer,
   scanTimer,
   child,
   graphCache,
@@ -92,7 +91,6 @@ function payload() {
       } catch (_) {}
     }
   if (!projects.some((p) => p.id === selectedProject)) {
-    const normal = (s) => path.resolve(s).toLowerCase();
     selectedProject = (
       projects.find((p) => workspace.some((w) => inside(p.root, w))) ||
       projects[0]
@@ -157,7 +155,12 @@ function scan() {
     scanAgain = true;
     return;
   }
-  const root = (vscode.workspace.workspaceFolders || [])[0]?.uri.fsPath;
+  const folders = (vscode.workspace.workspaceFolders || []).map(
+    (f) => f.uri.fsPath,
+  );
+  // Scan the folder you are editing in; the first folder otherwise.
+  const root =
+    folders.find((f) => focusPath && inside(f, focusPath)) || folders[0];
   if (!root) {
     stale = false;
     send();
@@ -462,7 +465,6 @@ function open() {
     () => {
       finishView();
       panel = undefined;
-      clearInterval(timer);
       clearTimeout(scanTimer);
       child?.kill();
       practiceChild?.kill();
@@ -473,7 +475,6 @@ function open() {
   );
   panel.onDidChangeViewState(
     () => {
-      clearInterval(timer);
       if (panel?.visible) {
         if (!viewedAt) {
           viewedAt = Date.now();
@@ -481,7 +482,6 @@ function open() {
           saveUsage();
         }
         markUnseen(false);
-        timer = setInterval(send, 3000);
         invalidate();
         schedule();
       } else {
@@ -495,7 +495,6 @@ function open() {
     null,
     context.subscriptions,
   );
-  timer = setInterval(send, 3000);
   scan();
 }
 
@@ -506,7 +505,10 @@ function activate(extensionContext) {
     vscode.commands.registerCommand("learnVisual.open", open),
   );
   context.subscriptions.push(
-    vscode.commands.registerCommand("learnVisual.refresh", scan),
+    // Refresh needs the tab: a closed tab is opened, which also scans.
+    vscode.commands.registerCommand("learnVisual.refresh", () =>
+      panel ? scan() : open(),
+    ),
   );
   context.subscriptions.push(
     vscode.commands.registerCommand("learnVisual.usage", () => {
@@ -578,7 +580,6 @@ function activate(extensionContext) {
   );
   context.subscriptions.push({
     dispose() {
-      clearInterval(timer);
       clearTimeout(scanTimer);
     },
   });
@@ -597,7 +598,6 @@ function activate(extensionContext) {
 exports.activate = activate;
 exports.deactivate = () => {
   finishView();
-  clearInterval(timer);
   clearTimeout(scanTimer);
   child?.kill();
   practiceChild?.kill();

@@ -1,6 +1,6 @@
 {
   "name": "learn-while-building",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Local visual learning through the separate VS Code companion; no teaching prompt injection or subagent hooks.",
   "author": { "name": "Bor Ipema" },
   "license": "MIT"

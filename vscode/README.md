@@ -1,4 +1,4 @@
-# Learn visual test 0.2.1
+# Learn visual test 0.2.2
 
 Click **Learn** in the VS Code status bar or run **Learn: Open visual learning tab**. One tab per window. Default: one visual step with actual, syntax-coloured source underneath, followed by an overview without repeated code. No branding header or token badge. The separate **Kaart** view offers bounded rendering, pan/zoom and whole-index file search.
 
