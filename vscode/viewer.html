@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; style-src __WEBVIEW_CSP_SOURCE__ 'unsafe-inline'; script-src 'nonce-__NONCE__'; base-uri 'none';"
+    />
+    <title>Learn</title>
+    <link rel="stylesheet" href="__STYLE_URI__" />
+  </head>
+  <body>
+    <main>
+      <div class="toolbar">
+        <select id="project" aria-label="Project"></select
+        ><button id="storyView" aria-pressed="true">Uitleg</button
+        ><button id="mapView" aria-pressed="false">Kaart</button
+        ><button
+          id="pin"
+          aria-pressed="false"
+          title="Voorkom dat andere wijzigingen de selectie overnemen"
+        >
+          Vastzetten</button
+        ><button id="refresh" title="Opgeslagen code lokaal opnieuw indexeren">
+          ↻
+        </button>
+      </div>
+      <div id="notice" role="status"></div>
+      <div id="content"></div>
+    </main>
+    <script nonce="__NONCE__" src="__CYTOSCAPE_URI__"></script>
+    <script nonce="__NONCE__" src="__HIGHLIGHT_URI__"></script>
+    <script nonce="__NONCE__">
+      globalThis.LEARN_PREVIEW = __PREVIEW_DATA__;
+    </script>
+    <script nonce="__NONCE__" src="__MECHANISMS_URI__"></script>
+    <script nonce="__NONCE__" src="__MAP_URI__"></script>
+    <script nonce="__NONCE__" src="__VIEWER_URI__"></script>
+  </body>
+</html>

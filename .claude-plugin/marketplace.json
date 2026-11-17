@@ -1,12 +1,12 @@
 {
   "name": "learn-while-building",
   "owner": { "name": "Bor Ipema" },
-  "metadata": { "description": "Learn while Claude builds with you." },
+  "metadata": { "description": "Local visual learning while building; separate VS Code companion." },
   "plugins": [
     {
       "name": "learn-while-building",
       "source": "./",
-      "description": "Build your project and learn how it works, in the same chat."
+      "description": "Visual learning through a separate VS Code companion; no additional chat teaching prompts."
     }
   ]
 }

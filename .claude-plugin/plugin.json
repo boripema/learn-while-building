@@ -1,7 +1,7 @@
 {
   "name": "learn-while-building",
-  "version": "0.6.1",
-  "description": "Turn your Claude Code chats into lessons in coding principles: learn how your own system works while you build it, one lesson per turn.",
+  "version": "0.7.0",
+  "description": "Local visual learning through the separate VS Code companion; no teaching prompt injection or subagent hooks.",
   "author": { "name": "Bor Ipema" },
   "license": "MIT"
 }

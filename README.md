@@ -1,83 +1,37 @@
-# learn-while-building
+# Learn while Building — local visual alpha
 
-Learn while Building, by Bor Ipema.
+The 0.2.1 test build is a VS Code companion extension: one Learn tab per window, focused visual steps with highlighted source, a separate Cytoscape map, and optional locally checked Python completion exercises. Native filesystem/save events pick up changes made by Claude Code, Codex or any editor. No learning instructions, model calls or per-agent hooks are used. Branding and token badges are removed; workspace-local usage counters help test whether the page is used.
 
-Build your project and learn how it works, in the same chat.
+Open Learn from the status bar or the command Learn: Open visual learning tab. Place it beside your chats. Source changes hide the old view during reindexing; unsaved source changes pause the map until saved. This is an explicit alpha limitation, not full live-buffer support. Hidden views unload and suspend. A shared lease permits one indexer process across windows.
 
-Four goals that feed each other, none bought at the cost of another: code quality, coding speed, understanding
-of this project, and general software engineering understanding. A lesson must save you more time than it costs
-to read.
-So Claude keeps doing your task and teaches only at three moments where knowledge saves you time:
+## Install or update
 
-- **a decision:** the question Claude asks you carries the one fact you need to choose well;
-- **a failure:** after something broke, which part broke, why, and the sign that shows it next time;
-- **your own how/why question** about your system.
+The Claude plugin and the VS Code companion are separate installations. Claude plugin **0.7.0** disables the old prompt-based lessons and quizzes. The visual interface is VS Code companion **0.2.1**; updating the Claude plugin alone does not install it.
 
-Lessons are about your system (what a part does, what feeds it, why it is built that way, with the pattern's name
-and a source), ending with the general principle behind it, under a bold **Learn** label, in italics. They shrink as you learn a part, and stop once you can change it yourself.
-Routine edits get no lesson.
+Download `learn-while-building-visual-0.2.1.vsix` from the [v0.7.0 release](https://github.com/boripema/learn-while-building/releases/tag/v0.7.0), then use VS Code's **Extensions: Install from VSIX…** or:
 
-At the start of each chat Claude quizzes you on one older lesson, as a click menu, spaced further apart each time
-you get it right.
-
-## Install
-
-In Claude Code:
-
-```
-/plugin marketplace add boripema/learn-while-building
-/plugin install learn-while-building@learn-while-building
+```sh
+code --install-extension learn-while-building-visual-0.2.1.vsix --force
 ```
 
-That installs it for you in every project. From a terminal you can choose the scope:
+Reload existing VS Code windows when running agents have finished. Open **Learn: Open visual learning tab**. Python 3 is required; set `learnVisual.python` to your executable if `python3` is unavailable. Other VS Code profiles need their own companion installation.
 
-```
-claude plugin marketplace add boripema/learn-while-building
-claude plugin install learn-while-building@learn-while-building --scope user      # you, every project
-claude plugin install learn-while-building@learn-while-building --scope project   # everyone in this repo (.claude/settings.json, commit it)
-claude plugin install learn-while-building@learn-while-building --scope local     # you, this repo only
-```
+To rebuild from source, with Node.js satisfying the build tool's engine requirements:
 
-Your level file stays personal whatever the scope. Needs `sh` and `python3` (macOS and Linux have both; on
-Windows use WSL).
-
-## Your level file
-
-Claude tracks your level per principle in `~/.learning/knowledge.md` (set `LEARN_DIR` to move it).
-It is created on first use, with twelve common principles to start from.
-
-To use it on several devices, make that folder a private git repo. The plugin pulls it when a session starts,
-and Claude pushes after each update:
-
-```
-gh repo create learning-progress --private --clone ~/.learning
+```sh
+git clone https://github.com/boripema/learn-while-building.git
+cd learn-while-building/vscode
+npx --yes @vscode/vsce@4.1.1 package --no-dependencies --allow-missing-repository --out learn-while-building-visual-0.2.1.vsix
 ```
 
-## Feedback and log
+The prepublish step copies the Python modules automatically. No local caches or private learning data are committed. The Claude marketplace remains `boripema/learn-while-building`; use Claude's plugin manager to refresh it and update the installed plugin to 0.7.0. Existing chat context may retain old teaching instructions until a fresh session.
 
-Start a message with `learn:` to give feedback on the teaching ("learn: too long"). Claude applies it from then on.
+The [peer-reviewed evidence matrix](docs/learning-evidence.md) separates findings, limitations and design hypotheses.
 
-After every reply a hook appends what happened to `~/.learning/events.jsonl`: lessons, decisions (with seconds
-to answer), quiz answers, your questions and your `learn:` feedback. Each line carries the plugin version, so
-changes to the method can be compared chat by chat. It stays on your machine.
+## Scope and architecture
 
-## Check
+See vscode/README.md for setup and limitations. The source supports Python/JavaScript/TypeScript static imports; aliases, runtime flows, learner profiles and adaptive explanations remain incomplete. Exercises cover only restricted numeric Python functions. The four PDF goals remain code quality, speed, product understanding and general software knowledge. No measured whole-task 5% or RAM-compliance claim is made.
 
-`sh test.sh` runs the hooks against a temporary folder.
+Modules: hooks/visual.py owns indexing and caching; hooks/practice.py owns restricted exercise selection/checking; vscode/extension.js owns VS Code events and local processes; vscode/web/mechanisms.js owns pure explanation templates; web/map.js owns the replaceable map-engine adapter (mount → fit/destroy); web/viewer.js owns DOM interactions, with separate CSS and HTML. Packaging copies the Python modules automatically from hooks; edit their source there. No frontend framework or runtime service was added.
 
-`claude plugin eval . --allow-tools Edit Write --judge-model sonnet` runs three cases (a failure, a why-question,
-a routine edit) with and without the plugin.
-
-**The gate for every change.** A new version ships only when it improves at least one goal and makes none worse:
-
-```
-claude plugin eval . --allow-tools Edit Write --judge-model sonnet --json new.json
-python3 evals/compare.py evals/baseline.json new.json   # PASS: exit 0; then new.json becomes the baseline
-```
-
-Each grader in the eval belongs to one goal (quality, speed, project, general; see `evals/compare.py`). One
-pass/fail flipping within a goal counts as chance; two or more as a real change. A broken run gives no verdict.
-
-## Licence
-
-MIT
+Checks: python -m unittest discover -s tests -q; node --test tests/test_extension.cjs tests/test_mechanisms.cjs tests/test_map.cjs. The teach entrypoints and evals/ text-lesson fixtures are legacy; no configured hook injects teaching instructions. Existing ~/.learning knowledge is preserved. The VS Code companion is distributed as a GitHub VSIX asset, not through the VS Code Marketplace. RAM, whole-task token overhead and educational outcomes remain unmeasured.

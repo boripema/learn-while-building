@@ -55,6 +55,8 @@ def events(entries):
 
 def main():
     hook = json.load(sys.stdin)
+    if hook.get("agent_id") or hook.get("agent_type") or "/subagents/" in str(hook.get("transcript_path", "")).replace("\\", "/"):
+        return
     entries = []
     for line in open(hook["transcript_path"], errors="replace"):
         try:
